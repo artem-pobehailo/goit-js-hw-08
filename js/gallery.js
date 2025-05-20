@@ -66,12 +66,11 @@ const images = [
 
 const container = document.querySelector(`.gallery`);
 
-
-
 function listImg(images) {
-  return images.map(
-    (img) =>
-      `<li class="gallery-item">
+  return images
+    .map(
+      (img) =>
+        `<li class="gallery-item">
       <a class="gallery-link" href="${img.original}">
         <img
           class="gallery-image"
@@ -81,25 +80,23 @@ function listImg(images) {
         />
       </a>
     </li>
-  `)
-    .join(` `)
+  `
+    )
+    .join(` `);
 }
 container.insertAdjacentHTML(`afterbegin`, listImg(images));
 
-container.addEventListener (`click`, (event) => {
+container.addEventListener(`click`, (event) => {
   event.preventDefault();
-if (event.target.tagName !== `IMG`) {
-    return
-}
-    const largeImg = event.target.dataset.source;
+  if (!event.target.classList.contains("gallery-image")) {
+    return;
+  }
 
+  const largeImg = event.target.dataset.source;
 
+  const instance = basicLightbox.create(`
+        <img src="${largeImg}">
+    `);
 
-
-const instance = basicLightbox.create(`
-    <img src="${largeImg}">
-`)
-
-instance.show();
-
+  instance.show();
 });
